@@ -33,6 +33,14 @@ class gui():
         self.__nb_echecs = 3    #Nombres d'echecs authorises
     
     def affMain(self):
+        if self.__jeu != '':
+            self.__jeu.destroy()
+            self.__jeu = ""
+        
+        if self.__option != '':
+            self.__option.destroy()
+            self.__option = ""
+        
         self.__main = tk.Tk()   #creation de la fenetre principale
         self.__main.geometry("400x300")     #Definition de la geometrie de la fenetre principal
         a = tk.Label(self.__main, text ="Pendu")     #Ajout du label du jeu
@@ -57,13 +65,14 @@ class gui():
         self.__choix = tk.Entry(self.__option, text ="Entrer la valeur")
         self.__choix.pack()
 
-        self.__b_retour = tk.Button(self.__option, text ="Retour au menu", command = self.retourMenu(self.__option))
+        self.__b_retour = tk.Button(self.__option, text ="Retour au menu",command = self.affMain)
         self.__b_retour.pack()
 
         self.__option.mainloop()
     
     def affJeu(self):
         self.__main.destroy()   #Detruit la fenetre principale
+        self.__main = ''
         self.__jeu = tk.Tk()    #Creation d'une nouvelle fenetre
         self.__jeu.geometry("150x300")  #Definition de la geometrie de la fenetre
 
@@ -100,6 +109,9 @@ class gui():
         self.__label_error.bind('<Return>', self.changeEssais)
         self.__label_error.pack()
 
+        self.__b_retour = tk.Button(self.__jeu, text ="Retour au menu",command = self.affMain)
+        self.__b_retour.pack()
+
         self.__jeu.mainloop()
     
     def verifyEntry(self):
@@ -121,12 +133,6 @@ class gui():
         else:
             self.__mot.addEchec()
         self.changeEssais()
-    
-    def retourMenu(self,fenetre):
-        fenetre.destroy()
-        self.__option = ''
-        self.__jeu = ''
-        self.affMain()
     
     #_________________ INTERACTION FENETRE _______________
     
